@@ -8,21 +8,20 @@ import {
     remove,
 } from "../controllers/service.controller";
 
+import { authenticate } from "../middleware/auth.middleware";
+import { requireAdmin } from "../middleware/role.middleware";
+
 const router = Router();
 
-// Create service
-router.post("/", create);
-
-// Get all services
+// Get all services (public)
 router.get("/", getAll);
 
-// Get service by ID
+// Get service by ID (public)
 router.get("/:id", getById);
 
-// Update service
-router.put("/:id", update);
-
-// Delete service
-router.delete("/:id", remove);
+// Admin routes
+router.post("/", authenticate, requireAdmin, create);
+router.put("/:id", authenticate, requireAdmin, update);
+router.delete("/:id", authenticate, requireAdmin, remove);
 
 export default router;

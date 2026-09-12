@@ -7,7 +7,10 @@ import type {
     LoginInput,
 } from "../validators/auth.validator";
 
-const JWT_SECRET = process.env.JWT_SECRET || "development_secret";
+const JWT_SECRET = process.env.JWT_SECRET;
+if (!JWT_SECRET) {
+    throw new Error("JWT_SECRET environment variable is required");
+}
 
 export const registerUser = async (data: RegisterInput) => {
     const { name, password } = data;
